@@ -64,7 +64,7 @@ namespace UnityEngine.Rendering.Universal
         }
     }
 
-    class XRPass
+    public class XRPass
     {
         internal List<XRView> views = new List<XRView>(2);
 
@@ -82,12 +82,12 @@ namespace UnityEngine.Rendering.Universal
         internal bool                    renderTargetValid { get => renderTarget != invalidRT; }
         internal bool                    renderTargetIsRenderTexture { get; private set; }
         internal bool isLateLatchEnabled { get; set; }
-        internal bool canMarkLateLatch { get; set; }
-        internal bool hasMarkedLateLatch { get; set; }
+        public bool canMarkLateLatch { get; set; }
+        public bool hasMarkedLateLatch { get; set; }
 
         // Access to view information
-        internal Matrix4x4 GetProjMatrix(int viewIndex = 0)  { return views[viewIndex].projMatrix; }
-        internal Matrix4x4 GetViewMatrix(int viewIndex = 0)  { return views[viewIndex].viewMatrix; }
+        public Matrix4x4 GetProjMatrix(int viewIndex = 0)  { return views[viewIndex].projMatrix; }
+        public Matrix4x4 GetViewMatrix(int viewIndex = 0)  { return views[viewIndex].viewMatrix; }
         internal int GetTextureArraySlice(int viewIndex = 0) { return views[viewIndex].textureArraySlice; }
         internal Rect GetViewport(int viewIndex = 0)         { return views[viewIndex].viewport; }
 
@@ -96,7 +96,7 @@ namespace UnityEngine.Rendering.Universal
 
         // Single-pass rendering support (instanced draw calls or multiview extension)
         internal int viewCount { get => views.Count; }
-        internal bool singlePassEnabled { get => viewCount > 1; }
+        public bool singlePassEnabled { get => viewCount > 1; }
 
         // Occlusion mesh rendering
         Material occlusionMeshMaterial = null;
@@ -460,10 +460,10 @@ namespace UnityEngine.Rendering.Universal
             }
         }
 
-        internal static readonly int UNITY_STEREO_MATRIX_V = Shader.PropertyToID("unity_StereoMatrixV");
-        internal static readonly int UNITY_STEREO_MATRIX_IV = Shader.PropertyToID("unity_StereoMatrixInvV");
-        internal static readonly int UNITY_STEREO_MATRIX_VP = Shader.PropertyToID("unity_StereoMatrixVP");
-        internal static readonly int UNITY_STEREO_MATRIX_IVP = Shader.PropertyToID("unity_StereoMatrixIVP");
+        public static readonly int UNITY_STEREO_MATRIX_V = Shader.PropertyToID("unity_StereoMatrixV");
+        public static readonly int UNITY_STEREO_MATRIX_IV = Shader.PropertyToID("unity_StereoMatrixInvV");
+        public static readonly int UNITY_STEREO_MATRIX_VP = Shader.PropertyToID("unity_StereoMatrixVP");
+        public static readonly int UNITY_STEREO_MATRIX_IVP = Shader.PropertyToID("unity_StereoMatrixIVP");
 
         internal void MarkLateLatchShaderProperties(CommandBuffer cmd, ref CameraData cameraData)
         {

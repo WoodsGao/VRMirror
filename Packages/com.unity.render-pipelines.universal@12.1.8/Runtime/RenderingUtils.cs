@@ -174,7 +174,7 @@ namespace UnityEngine.Rendering.Universal
         /// <param name="cameraProjectionMatrix">Camera projection matrix to be set.Array size is 2. Does not include platform specific transformations such as depth-reverse, depth range in post-projective space and y-flip. </param>
         /// <param name="setInverseMatrices">Set this to true if you also need to set inverse camera matrices.</param>
         /// <returns>Void</c></returns>
-        internal static void SetStereoViewAndProjectionMatrices(CommandBuffer cmd, Matrix4x4[] viewMatrix, Matrix4x4[] projMatrix, Matrix4x4[] cameraProjMatrix, bool setInverseMatrices)
+        public static void SetStereoViewAndProjectionMatrices(CommandBuffer cmd, Matrix4x4[] viewMatrix, Matrix4x4[] projMatrix, Matrix4x4[] cameraProjMatrix, bool setInverseMatrices)
         {
             for (int i = 0; i < 2; i++)
             {

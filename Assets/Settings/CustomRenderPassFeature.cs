@@ -1,14 +1,11 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class VRMirrorRenderPassFeature : ScriptableRendererFeature
+public class CustomRenderPassFeature : ScriptableRendererFeature
 {
-    class VRMirrorRenderPass : ScriptableRenderPass
+    class CustomRenderPass : ScriptableRenderPass
     {
-        public Material material;
-        public Transform mirrorCam;
         // This method is called before executing the render pass.
         // It can be used to configure render targets and their clear state. Also to create temporary render target textures.
         // When empty this render pass will render to the active camera render target.
@@ -16,7 +13,6 @@ public class VRMirrorRenderPassFeature : ScriptableRendererFeature
         // The render pipeline will ensure target setup and clearing happens in a performant manner.
         public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
-   
         }
 
         // Here you can implement the rendering logic.
@@ -25,30 +21,6 @@ public class VRMirrorRenderPassFeature : ScriptableRendererFeature
         // You don't have to call ScriptableRenderContext.submit, the render pipeline will call it at specific points in the pipeline.
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
-            Debug.Log("vr mirror");
-
-            SortingCriteria sortingCriteria = renderingData.cameraData.defaultOpaqueSortFlags;
-
-            var tags = new List<ShaderTagId>();
-            tags.Add(new ShaderTagId("SRPDefaultUnlit"));
-            tags.Add(new ShaderTagId("UniversalForward"));
-            tags.Add(new ShaderTagId("UniversalForwardOnly"));
-            DrawingSettings drawingSettings = CreateDrawingSettings(tags, ref renderingData, sortingCriteria);
-            drawingSettings.overrideMaterial = material;
-            drawingSettings.overrideMaterialPassIndex = 0;
-
-            var m_FilteringSettings = new FilteringSettings(RenderQueueRange.all, LayerMask.GetMask("Default"));
-            var m_RenderStateBlock = new RenderStateBlock(RenderStateMask.Nothing);
-
-
-            var camera = renderingData.cameraData.camera;
-            var originPos = camera.transform.position;
-            camera.transform.position = new Vector3(0,0,0);
-            context.SetupCameraProperties(camera, true);
-            // Render the objects...
-            context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref m_FilteringSettings, ref m_RenderStateBlock);
-            camera.transform.position = originPos;
-            context.SetupCameraProperties(camera, true);
         }
 
         // Cleanup any allocated resources that were created during the execution of this render pass.
@@ -57,14 +29,13 @@ public class VRMirrorRenderPassFeature : ScriptableRendererFeature
         }
     }
 
-    VRMirrorRenderPass m_ScriptablePass;
-    public Material overrideMaterial = null;
+    CustomRenderPass m_ScriptablePass;
 
     /// <inheritdoc/>
     public override void Create()
     {
-        m_ScriptablePass = new VRMirrorRenderPass();
-        m_ScriptablePass.material = overrideMaterial;
+        m_ScriptablePass = new CustomRenderPass();
+
         // Configures where the render pass should be injected.
         m_ScriptablePass.renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
     }

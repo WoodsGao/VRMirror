@@ -10,7 +10,7 @@ using UnityEngine.XR;
 
 namespace UnityEngine.Rendering.Universal
 {
-    internal partial class XRSystem
+    public partial class XRSystem
     {
         // Valid empty pass when a camera is not using XR
         internal readonly XRPass emptyPass = new XRPass();
@@ -274,7 +274,7 @@ namespace UnityEngine.Rendering.Universal
         }
 
         // Used for camera stacking where we need to update the parameters per camera
-        internal void UpdateFromCamera(ref XRPass xrPass, CameraData cameraData)
+        public void UpdateFromCamera(ref XRPass xrPass, CameraData cameraData)
         {
             if (xrPass.enabled && display != null)
             {
